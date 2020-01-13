@@ -16,10 +16,15 @@ App.module.extend('popup', function() {
         this.getCurrentUrlPromise().then(url => {
             self.showQRCodeView(url);
         });
+        $('#qrcode-text-container').change(event => {
+            const url = event.target.value;
+            self.showQRCodeView(url);
+        })
     };
     this.showQRCodeView = function (url) {
+        $('#qrcode-img-container').html('');
         $('#qrcode-img-container').qrcode({
-            render: "table", //table方式
+            render: "canvas", //table方式
             width: 200, //宽度
             height:200, //高度
             text: url //任意内容
