@@ -4,7 +4,12 @@
     <link href="style/popup.css" rel="stylesheet" />
   </head>
   <body>
-    <div id="qrcode-img-container"></div>
+    <div>你的ip地址为:</div>
+    <div id="ip-address-txt">加载中...</div>
+    <div id="parse-json-element" class="menu-item">
+      JSON解析
+    </div>
+    <div id="qrcode-img-container" class="menu-item"></div>
     <input id="qrcode-text-container"/>
     </div>
     <script src="scripts/lib/jquery-1.11.0.min.js"></script>
@@ -12,6 +17,7 @@
     <script src="scripts/app.js"></script>
     <script src="scripts/model.js"></script>
     <script src="scripts/module/popup/module.js"></script>
+    <script src="scripts/module/popup/event.js"></script>
     <script src="scripts/run.js"></script>
   </body>
 </html>

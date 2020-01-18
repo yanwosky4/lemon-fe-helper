@@ -40,5 +40,10 @@ App.module.extend('popup', function() {
                 resolve(tab.url)
             });
         })
+    };
+    // 点击json解析的处理事件
+    this.openJsonParseTabHandler = function () {
+        var newURL = "http://www.bejson.com/webinterface.html";
+        chrome.tabs.create({ url: newURL });
     }
 });

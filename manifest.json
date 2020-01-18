@@ -47,5 +47,6 @@
         "fontSettings",
         "http://*/*",
         "https://*/*"
-    ]
+    ],
+    "web_accessible_resources": ["scripts/lib/bundle.prod.js"]
 }

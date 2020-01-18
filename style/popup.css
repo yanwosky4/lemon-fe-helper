@@ -1,3 +1,11 @@
+
+.menu-item + .menu-item {
+    margin-top: 5px;
+}
+#parse-json-element {
+    font-size: 15px;
+    text-underline: blue;
+}
 #qrcode-text-container {
     width: 100%;
 }
