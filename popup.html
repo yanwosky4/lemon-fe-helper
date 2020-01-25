@@ -5,7 +5,11 @@
   </head>
   <body>
     <div>你的ip地址为:</div>
-    <div id="ip-address-txt">加载中...</div>
+    <div id="ip-address-container">
+        <div id="ip-address-txt">加载中...</div>
+        <button id="coyp-ip-address-btn">复制</button>
+    </div>
+    <textarea style="opacity: 0;" id="copy-textarea"></textarea>
     <div id="parse-json-element" class="menu-item">
       JSON解析
     </div>

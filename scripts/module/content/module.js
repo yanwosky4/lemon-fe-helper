@@ -6,17 +6,15 @@ App.module.extend('content', function() {
     let self = this;
     //
     this.init = function() {
-        // todo.
-        chrome.extension.onMessage.addListener(function(request, _, response) {
-            let method = request.method;
-            if (self.hasOwnProperty(method)) {
-                self[method]();
-            } else {
-                self.log('method '+ method +' not exist.');
-            }
-            response('');
-        });
-        console.log('>>> showLocalIP');
+        // chrome.extension.onMessage.addListener(function(request, _, response) {
+        //     let method = request.method;
+        //     if (self.hasOwnProperty(method)) {
+        //         self[method]();
+        //     } else {
+        //         self.log('method '+ method +' not exist.');
+        //     }
+        //     response('');
+        // });
         this.webRTCData = null;
         this.initEvent();
         this.initInjectJsScript();
@@ -57,12 +55,19 @@ App.module.extend('content', function() {
     this.initEvent = function () {
         window.addEventListener('message', function(e)
         {
-            // todo: 获取到ip地址
-            console.log(e.data);
             if (e.data && e.data.id === 'WebRTC_IPs_postMsg') {
                 const webRTCData = e.data;
                 self.webRTCData = webRTCData;
+                if (self.webRTCData) {
+                    self.sendMessage(self.webRTCData);
+                }
             }
         }, false);
+    };
+
+    this.sendMessage = function (msgData) { // content-script主动发消息给后台
+        chrome.runtime.sendMessage(msgData, function(response) {
+            console.log('收到来自后台的回复：' + response);
+        });
     }
 });

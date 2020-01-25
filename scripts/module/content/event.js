@@ -8,9 +8,6 @@ App.event.extend('content', function() {
 
     this.event = {
         listenExample: function() {
-            $('body').on('click', function() {
-                self.module.content.show();
-            });
         }
     }
 });

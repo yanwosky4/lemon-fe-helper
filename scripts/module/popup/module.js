@@ -10,7 +10,11 @@ App.module.extend('popup', function() {
         //     self.showQRCodeView();
         //     response('');
         // });
+        const bg = chrome.extension.getBackgroundPage();
+        this.bg = bg;
+
         this.setQRCodeHandler();
+        this.showAddressView();
     };
     this.setQRCodeHandler = function () {
         this.getCurrentUrlPromise().then(url => {
@@ -45,5 +49,27 @@ App.module.extend('popup', function() {
     this.openJsonParseTabHandler = function () {
         var newURL = "http://www.bejson.com/webinterface.html";
         chrome.tabs.create({ url: newURL });
-    }
+    };
+    this.showAddressView = function () {
+        let ipv4 = self.bg.App.module.background.getIPv4Address();
+        if (ipv4) {
+            $('#ip-address-txt').html(ipv4);
+        } else {
+            $('#ip-address-txt').html('加载中...');
+            setTimeout(() => {
+                ipv4 = self.bg.App.module.background.getIPv4Address();
+                if (ipv4) {
+                    $('#ip-address-txt').html(ipv4);
+                } else {
+                    $('#ip-address-txt').html('获取ip失败，请刷新页面重试');
+                }
+            }, 3000);
+        }
+    };
+    this.copyText = function (content) {
+        $("#copy-textarea").val(content);
+        const txt=document.getElementById("copy-textarea");
+        txt.select(); // 选择对象
+        document.execCommand("Copy"); // 执行浏览器复制命令
+    };
 });

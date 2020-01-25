@@ -11,6 +11,10 @@ App.event.extend('content', function() {
             $('#parse-json-element').on('click', function() {
                 self.module.popup.openJsonParseTabHandler();
             });
+            $('#coyp-ip-address-btn').on('click', function() {
+                const content = $('#ip-address-txt').html();
+                self.module.popup.copyText(content);
+            });
         }
     }
 });
