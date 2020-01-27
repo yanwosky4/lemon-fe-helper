@@ -15,6 +15,7 @@ App.module.extend('content', function() {
         //     }
         //     response('');
         // });
+        console.log('>>> content init');
         this.webRTCData = null;
         this.initEvent();
         this.initInjectJsScript();
@@ -60,6 +61,10 @@ App.module.extend('content', function() {
                 self.webRTCData = webRTCData;
                 if (self.webRTCData) {
                     self.sendMessage(self.webRTCData);
+                }
+            } else if (e.data && e.data.id === 'inspectDomStyle') {
+                if (e.data) {
+                    self.sendMessage(e.data);
                 }
             }
         }, false);

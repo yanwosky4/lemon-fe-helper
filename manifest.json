@@ -36,6 +36,7 @@
             "style/content.css"
         ]
     }],
+    "devtools_page": "devtools.html",
     "browser_action": {
         "default_title": "CES",
         "default_popup": "popup.html"
