@@ -1,10 +1,49 @@
 <html>
     <head>
         <meta charset="utf-8">
+        <link href="style/devtools-content.css" rel="stylesheet" />
     </head>
     <body>
-        devtools-content的内容
-        <span id="content-span">哈哈哈</span>
+        <div id="app">
+            <!--box-model-->
+            <div class="box-model-container">
+                <!--margin-->
+                <div class="margin-container box-item-container">
+                    <span class="margin-desc box-desc">margin</span>
+                    <div class="margin-top box-item-top">{{marginTop}}</div>
+                    <div class="margin-middle-container box-item-middle-container">
+                        <div class="margin-left box-item-left">{{marginLeft}}</div>
+                        <!--border-->
+                        <div class="border-container box-item-container">
+                            <span class="border-desc box-desc">border</span>
+                            <div class="border-top box-item-top">{{borderTop}}</div>
+                            <div class="border-middle-container box-item-middle-container">
+                                <div class="border-left box-item-left">{{borderLeft}}</div>
+                                <!--padding-->
+                                <div class="padding-container box-item-container">
+                                    <span class="padding-desc box-desc">padding</span>
+                                    <div class="padding-top box-item-top">{{paddingTop}}</div>
+                                    <div class="padding-middle-container box-item-middle-container">
+                                        <div class="padding-left box-item-left">{{paddingLeft}}</div>
+                                        <!--content-->
+                                        <div class="content-container box-item-container">
+                                            {{width}} * {{height}}
+                                        </div>
+                                        <div class="padding-right box-item-right">{{paddingRight}}</div>
+                                    </div>
+                                    <div class="padding-bottom box-item-bottom">{{paddingBottom}}</div>
+                                </div>
+                                <div class="border-right box-item-right">{{borderRight}}</div>
+                            </div>
+                            <div class="border-bottom box-item-bottom">{{borderBottom}}</div>
+                        </div>
+                        <div class="margin-right box-item-right">{{marginRight}}</div>
+                    </div>
+                    <div class="margin-bottom box-item-bottom">{{marginBottom}}</div>
+                </div>
+            </div>
+        </div>
+        <script src="scripts/lib/vue.min.js"></script>
         <script src="scripts/module/devtools-content/index.js"></script>
     </body>
 </html>

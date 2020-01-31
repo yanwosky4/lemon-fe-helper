@@ -72,7 +72,7 @@ App.module.extend('content', function() {
 
     this.sendMessage = function (msgData) { // content-script主动发消息给后台
         chrome.runtime.sendMessage(msgData, function(response) {
-            console.log('收到来自后台的回复：' + response);
+            // console.log('收到来自后台的回复：' + response);
         });
     }
 });

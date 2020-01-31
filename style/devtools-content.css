@@ -1,0 +1,77 @@
+#app {
+}
+
+.box-model-container {
+    background-color: #cccccc;
+    width: 400px !important;
+    height: 400px !important;
+    font-size: 14px;
+    transform: scale(0.7);
+    transform-origin: center;
+}
+
+
+.box-model-container, .box-item-container {
+    height: 100%;
+    flex: 1;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+.box-model-container, .box-item-top {
+    height: 50px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+.box-model-container, .box-item-bottom {
+    height: 50px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+.box-model-container, .box-item-middle-container {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+}
+.box-model-container, .box-item-left {
+    width: 50px;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+.box-model-container, .box-item-right {
+    width: 50px;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+.box-model-container, .box-desc {
+    position: absolute;
+    top: 10px;
+    left: 5px;
+}
+
+.margin-container {
+    background-color: #F9CDA0;
+}
+.border-container {
+    background-color: #FDDD9C;
+}
+.padding-container {
+    background-color: #C4CF8A;
+}
+.content-container {
+    background-color: #8DB5C1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
