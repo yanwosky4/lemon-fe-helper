@@ -35,6 +35,10 @@ const app = new Vue({
                 this.updateElementProperties();
             }, 500);
         },
+        numberRound(number, precision = 1) {
+            const scaleNum = 10 ** precision;
+            return Math.round(number * scaleNum) / scaleNum;
+        },
         getStyleProps(inspectStyle, propName, scale = 3) {
             if (!inspectStyle) {
                 return '-';
@@ -43,13 +47,13 @@ const app = new Vue({
                 return '-';
             }
             const propValue = inspectStyle[propName].replace('px', '');
-            if (+propValue === 0) {
+            if (+propValue === 0 && !['width', 'height'].includes(propName)) {
                 return '-';
             }
             if (Number.isNaN(+propValue)) { // 非数字
                 return propValue;
             }
-            return propValue * scale;
+            return this.numberRound(propValue * scale);
         }
     },
     mounted() {
