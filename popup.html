@@ -1,27 +1,45 @@
 <html>
   <head>
     <meta charset="utf-8">
+    <link href="scripts/lib/iview.css" rel="stylesheet" />
     <link href="style/popup.css" rel="stylesheet" />
   </head>
   <body>
-    <div>你的ip地址为:</div>
-    <div id="ip-address-container">
-        <div id="ip-address-txt">加载中...</div>
-        <button id="coyp-ip-address-btn">复制</button>
+  <div id="app">
+    <textarea style="opacity: 0;height: 1px;overflow: hidden;position: absolute;" id="copy-textarea"></textarea>
+    <!--ip地址-->
+    <div class="ip-container menu-container">
+      <div class="ip-title menu-title">● ip地址</div>
+      <div class="ip-content menu-content">
+        <div class="ip-menu-item menu-item">
+          <div class="ip-value">{{ipAddress}}</div>
+          <i-button @click="copyIpHandler" type="primary" size="small">复制</i-button>
+        </div>
+      </div>
     </div>
-    <textarea style="opacity: 0;" id="copy-textarea"></textarea>
-    <div id="parse-json-element" class="menu-item">
-      JSON解析
+    <!--json解析-->
+    <div class="json-container menu-container" @click="openJsonParseTabHandler">
+      <div class="json-title menu-title">● JSON解析</div>
     </div>
-    <div id="qrcode-img-container" class="menu-item"></div>
-    <input id="qrcode-text-container"/>
+    <!--二维码显示-->
+    <div class="qrcode-container menu-container">
+      <div class="menu-title">● 二维码</div>
+      <div class="menu-content">
+        <div id="qrcode-img-container" class="menu-item"></div>
+        <Input
+                class="menu-item"
+                v-model="qrcodeValue"
+                placeholder="输入二维码地址"
+                style="width: 200px"
+        ></Input>
+      </div>
+
     </div>
+  </div>
     <script src="scripts/lib/jquery-1.11.0.min.js"></script>
     <script src="scripts/lib/jquery.qrcode.min.js"></script>
-    <script src="scripts/app.js"></script>
-    <script src="scripts/model.js"></script>
-    <script src="scripts/module/popup/module.js"></script>
-    <script src="scripts/module/popup/event.js"></script>
-    <script src="scripts/run.js"></script>
+    <script src="scripts/lib/vue.min.js"></script>
+    <script src="scripts/lib/iview.min.js"></script>
+    <script src="scripts/module/popup/index.js"></script>
   </body>
 </html>
