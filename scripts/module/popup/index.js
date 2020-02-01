@@ -4,13 +4,18 @@
  *  branchName: 分支名称
  *  userName: 用户名称
  */
+
+const reposBaseUrlMap = { // 不同项目仓库的baseUrl
+    'lemon-smart-prg' : 'http://icode.baidu.com/repos/baidu/ebiz'
+}
+
 new Vue({
     el: '#app',
     data: {
         qrcodeValue: '',
         bg: null,
         ipAddress: '加载中...',
-        h5ProjectConfig: null,
+        h5ProjectConfig: null
     },
     methods: {
         initData() {
@@ -49,7 +54,7 @@ new Vue({
             });
         },
         openJsonParseTabHandler() { // 点击json解析的处理事件
-            var newURL = "http://www.bejson.com/webinterface.html";
+            const newURL = "http://www.bejson.com/webinterface.html";
             chrome.tabs.create({ url: newURL });
         },
         copyIpHandler() {
@@ -79,6 +84,14 @@ new Vue({
             txt.select(); // 选择对象
             document.execCommand("Copy"); // 执行浏览器复制命令
             this.$Message.success('已复制 ^_^');
+        },
+        extensionNameHandler() { // extension标题的点击事件
+            const newURL = "http://wiki.baidu.com/display/lemon/LemonFE";
+            chrome.tabs.create({ url: newURL });
+        },
+        h5AppNameHandler() {
+            const newURL = `${reposBaseUrlMap[this.h5AppName]}/${this.h5AppName}/tree/${this.h5BranchName || 'master'}`;
+            chrome.tabs.create({ url: newURL });
         }
     },
     mounted() {
@@ -88,6 +101,20 @@ new Vue({
     watch: {
         qrcodeValue(value) {
             this.showQRCodeView(value);
+        }
+    },
+    computed: {
+        h5AppName() { // h5项目的名称
+            // return (h5ProjectConfig && h5ProjectConfig.appName) || '';
+            return 'lemon-smart-prg';
+        },
+        h5BranchName() { // h5分支名称
+            // return (h5ProjectConfig && h5ProjectConfig.branchName) || '';
+            return 'master'
+        },
+        h5UserName() { // h5分支名称
+            // return (h5ProjectConfig && h5ProjectConfig.userName) || '';
+            return 'sunyihong';
         }
     }
 })

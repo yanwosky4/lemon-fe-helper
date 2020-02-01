@@ -7,6 +7,18 @@
   <body>
   <div id="app">
     <textarea style="opacity: 0;height: 1px;overflow: hidden;position: absolute;" id="copy-textarea"></textarea>
+    <div class="header-container">
+      <div class="profile-container header-item">
+        <div class="extension-name" @click="extensionNameHandler">Lemon前端助手</div>
+        <div class="user-name">{{h5UserName}}</div>
+      </div>
+      <div class="h5-project-container header-item" v-if="h5AppName">
+        <div class="project-name" @click="h5AppNameHandler">
+          {{h5AppName}}
+        </div>
+        <div class="branch-name">{{h5BranchName}}</div>
+      </div>
+    </div>
     <!--ip地址-->
     <div class="ip-container menu-container">
       <div class="ip-title menu-title">● ip地址</div>
