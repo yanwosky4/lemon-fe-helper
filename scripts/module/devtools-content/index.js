@@ -35,9 +35,37 @@ const app = new Vue({
                 this.updateElementProperties();
             }, 500);
         },
-        numberRound(number, precision = 1) {
+        numberRound(number, precision = 2) {
             const scaleNum = 10 ** precision;
             return Math.round(number * scaleNum) / scaleNum;
+        },
+        getContentSize(inspectStyle, propName) {
+            const propValue = inspectStyle[propName].replace('px', '');
+            const boxSizingValue = inspectStyle.boxSizing;
+            if (boxSizingValue !== 'border-box') {
+                return propValue;
+            }
+            if (Number.isNaN(+propValue)) { // 非数字
+                return propValue;
+            }
+            if (propName === 'width') {
+                const borderLeftWidth = +inspectStyle['borderLeftWidth'].replace('px', '');
+                const borderRightWidth = +inspectStyle['borderRightWidth'].replace('px', '');
+
+                const paddingLeft = +inspectStyle['paddingLeft'].replace('px', '');
+                const paddingRight = +inspectStyle['paddingRight'].replace('px', '');
+
+                return +propValue - (borderLeftWidth + borderRightWidth + paddingLeft + paddingRight);
+            } else if (propName === 'height') {
+                const borderTopWidth = +inspectStyle['borderTopWidth'].replace('px', '');
+                const borderBottomWidth = +inspectStyle['borderBottomWidth'].replace('px', '');
+
+                const paddingTop = +inspectStyle['paddingTop'].replace('px', '');
+                const paddingBottom = +inspectStyle['paddingBottom'].replace('px', '');
+
+                return +propValue - (borderTopWidth + borderBottomWidth + paddingTop + paddingBottom);
+            }
+            return propValue;
         },
         getStyleProps(inspectStyle, propName, scale = 3) {
             if (!inspectStyle) {
@@ -46,7 +74,12 @@ const app = new Vue({
             if (!inspectStyle[propName]) {
                 return '-';
             }
-            const propValue = inspectStyle[propName].replace('px', '');
+            const propValue = (() => {
+                if (['width', 'height'].includes(propName)) {
+                    return this.getContentSize(inspectStyle, propName);
+                }
+                return inspectStyle[propName].replace('px', '')
+            })();
             if (+propValue === 0 && !['width', 'height'].includes(propName)) {
                 return '-';
             }
