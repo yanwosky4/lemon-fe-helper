@@ -54,12 +54,17 @@
     margin-top: 5px;
 }
 
+.link-menu-title {
+    color: #3399ff;
+    text-decoration:underline;
+    cursor: pointer;
+}
+
 .ip-container, .ip-value {
     min-width: 120px;
 }
 
+.jarvis-container, .jarvis-title {
+}
 .json-container, .json-title {
-    color: #3399ff;
-    text-decoration:underline;
-    cursor: pointer;
 }

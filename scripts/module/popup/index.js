@@ -3,10 +3,17 @@
  *  appName: 项目名称
  *  branchName: 分支名称
  *  userName: 用户名称
+ *  icafeId: 当前分支最后提交的icafeid
  */
 
-const reposBaseUrlMap = { // 不同项目仓库的baseUrl
-    'lemon-smart-prg' : 'http://icode.baidu.com/repos/baidu/ebiz'
+const extraConfig = {
+    'lemon-smart-prg': {
+        reposBaseUrl: 'http://icode.baidu.com/repos/baidu/ebiz',
+        agileBaseUrl: 'http://agile.baidu.com/#/builds/baidu/ebiz',
+        preonlinePipelineName: 'preonlinePipeline',
+        onlinePipelineName: 'onlinePipeline',
+        jarvisUrl: 'http://jarvis.baidu-int.com/#/App/BaseInfo/10000/56/11831/5'
+    }
 }
 
 new Vue({
@@ -89,8 +96,55 @@ new Vue({
             const newURL = "http://wiki.baidu.com/display/lemon/LemonFE";
             chrome.tabs.create({ url: newURL });
         },
+        getCurrentExtraConfig() {
+            return extraConfig[this.h5AppName];
+        },
         h5AppNameHandler() {
-            const newURL = `${reposBaseUrlMap[this.h5AppName]}/${this.h5AppName}/tree/${this.h5BranchName || 'master'}`;
+            const currentExtraConfig = this.getCurrentExtraConfig();
+            if (!currentExtraConfig) {
+                return;
+            }
+            const newURL = `${currentExtraConfig.reposBaseUrl}/${this.h5AppName}/tree/${this.h5BranchName || 'master'}`;
+            chrome.tabs.create({ url: newURL });
+        },
+        syncCodeHandler() { // 同步主干代码
+            const currentExtraConfig = this.getCurrentExtraConfig();
+            if (!currentExtraConfig) {
+                return;
+            }
+            const newURL = `${currentExtraConfig.reposBaseUrl}/${this.h5AppName}/merge/${this.h5BranchName || 'master'}...master`;
+            chrome.tabs.create({ url: newURL });
+        },
+        intoCodeHandler() { // 合入主干代码
+            const currentExtraConfig = this.getCurrentExtraConfig();
+            if (!currentExtraConfig) {
+                return;
+            }
+            const newURL = `${currentExtraConfig.reposBaseUrl}/${this.h5AppName}/merge/master...${this.h5BranchName || 'master'}`;
+            chrome.tabs.create({ url: newURL });
+        },
+        preonlineAgileHandler() {
+            const currentExtraConfig = this.getCurrentExtraConfig();
+            if (!currentExtraConfig) {
+                return;
+            }
+            const newURL = `${currentExtraConfig.agileBaseUrl}/${this.h5AppName}@${currentExtraConfig.preonlinePipelineName}@${this.h5BranchName || 'master'}`;
+            chrome.tabs.create({ url: newURL });
+        },
+        onlineAgileHandler() {
+            const currentExtraConfig = this.getCurrentExtraConfig();
+            if (!currentExtraConfig) {
+                return;
+            }
+            const newURL = `${currentExtraConfig.agileBaseUrl}/${this.h5AppName}@${currentExtraConfig.onlinePipelineName}@${this.h5BranchName || 'master'}`;
+            chrome.tabs.create({ url: newURL });
+        },
+        jarvisPublishHandler() {
+            const currentExtraConfig = this.getCurrentExtraConfig();
+            if (!currentExtraConfig) {
+                return;
+            }
+            const newURL = `${currentExtraConfig.jarvisUrl}`;
             chrome.tabs.create({ url: newURL });
         }
     },
@@ -110,11 +164,14 @@ new Vue({
         },
         h5BranchName() { // h5分支名称
             // return (h5ProjectConfig && h5ProjectConfig.branchName) || '';
-            return 'master'
+            return 'lemon-smart-prg_2020-01-14_BRANCH'
         },
         h5UserName() { // h5分支名称
             // return (h5ProjectConfig && h5ProjectConfig.userName) || '';
             return 'sunyihong';
+        },
+        h5IcafeId() {
+            return 'cpd-alpha-1455';
         }
     }
 })
