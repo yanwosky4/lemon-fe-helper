@@ -3,15 +3,18 @@
  *  appName: 项目名称
  *  branchName: 分支名称
  *  userName: 用户名称
- *  icafeId: 当前分支最后提交的icafeid
+ *  commitId: 当前分支最后提交的commit id
+ *  commitInfo: 提交信息
  */
 
 const extraConfig = {
     'lemon-smart-prg': {
+        hasSwan: true,
         reposBaseUrl: 'http://icode.baidu.com/repos/baidu/ebiz',
         agileBaseUrl: 'http://agile.baidu.com/#/builds/baidu/ebiz',
         preonlinePipelineName: 'preonlinePipeline',
         onlinePipelineName: 'onlinePipeline',
+        swanPipelineName: 'pipeline-swan',
         jarvisUrl: 'http://jarvis.baidu-int.com/#/App/BaseInfo/10000/56/11831/5'
     }
 }
@@ -123,6 +126,9 @@ new Vue({
             const newURL = `${currentExtraConfig.reposBaseUrl}/${this.h5AppName}/merge/master...${this.h5BranchName || 'master'}`;
             chrome.tabs.create({ url: newURL });
         },
+        copyCommitIdHandler() { // 复制commitId
+            this.copyText(this.h5commitId);
+        },
         preonlineAgileHandler() {
             const currentExtraConfig = this.getCurrentExtraConfig();
             if (!currentExtraConfig) {
@@ -137,6 +143,14 @@ new Vue({
                 return;
             }
             const newURL = `${currentExtraConfig.agileBaseUrl}/${this.h5AppName}@${currentExtraConfig.onlinePipelineName}@${this.h5BranchName || 'master'}`;
+            chrome.tabs.create({ url: newURL });
+        },
+        swanAgileHandler() {
+            const currentExtraConfig = this.getCurrentExtraConfig();
+            if (!currentExtraConfig) {
+                return;
+            }
+            const newURL = `${currentExtraConfig.agileBaseUrl}/${this.h5AppName}@${currentExtraConfig.swanPipelineName}@${this.h5BranchName || 'master'}`;
             chrome.tabs.create({ url: newURL });
         },
         jarvisPublishHandler() {
@@ -170,8 +184,18 @@ new Vue({
             // return (h5ProjectConfig && h5ProjectConfig.userName) || '';
             return 'sunyihong';
         },
-        h5IcafeId() {
+        h5commitId() {
             return 'cpd-alpha-1455';
+        },
+        h5commitInfo() {
+            return 'cpd-alpha-1455 最后的提交信息'
+        },
+        hasSwan() {
+            const currentExtraConfig = this.getCurrentExtraConfig();
+            if (!currentExtraConfig) {
+                return false;
+            }
+            return !!currentExtraConfig.hasSwan;
         }
     }
 })

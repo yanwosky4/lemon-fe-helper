@@ -1,9 +1,12 @@
 #app {
     margin: 15px;
 }
+.ivu-tooltip-inner {
+    word-break: break-all;
+}
 
 .header-container {
-    margin-bottom: 25px;
+    margin-bottom: 10px;
     display: flex;
     flex-direction: column;
 }
@@ -23,6 +26,23 @@
 .project-name {
     color: #5cadff;
     cursor: pointer;
+
+    white-space: nowrap;
+    word-break: break-all;
+    margin-right: 10px;
+    line-height: 1;
+    font-size: 13px;
+}
+.branch-name {
+    word-break: break-all;
+    line-height: 1;
+    font-size: 12px;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
 }
 
 

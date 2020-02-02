@@ -16,7 +16,9 @@
         <div class="project-name" @click="h5AppNameHandler">
           {{h5AppName}}
         </div>
-        <div class="branch-name">{{h5BranchName}}</div>
+        <Tooltip :content="h5BranchName" max-width="105" placement="bottom" :transfer="true">
+          <span class="branch-name">{{h5BranchName}}</span>
+        </Tooltip>
       </div>
     </div>
     <!--ip地址-->
@@ -35,14 +37,28 @@
       <div class="icode-content menu-content">
         <div class="icode-menu-item menu-item">
           <Tooltip :content="`将master分支合并到当前分支(${h5BranchName})`"
-                   placement="top-start" max-width="150"
+                   placement="top-start" max-width="200"
                    style="margin-right: 10px;"
           >
             <i-button @click="syncCodeHandler" type="primary" size="small">同步</i-button>
           </Tooltip>
-          <Tooltip :content="`将当前分支合(${h5BranchName})并到master分支`" placement="top" max-width="150">
+          <Tooltip :content="`将当前分支(${h5BranchName})合并到master分支`"
+                   placement="top" max-width="200"
+                   style="margin-right: 10px;"
+          >
             <i-button @click="intoCodeHandler" type="primary" size="small">合入</i-button>
           </Tooltip>
+          <Poptip
+                  trigger="hover"
+                  title="当前分支的最后提交"
+                  :content="h5commitInfo"
+                  placement="top-start"
+                  :word-wrap="true"
+                  :transfer="true"
+                  width="100"
+          >
+            <i-button @click="copyCommitIdHandler" type="primary" size="small">复制commitId</i-button>
+          </Poptip>
         </div>
       </div>
     </div>
@@ -52,7 +68,12 @@
       <div class="agile-content menu-content">
         <div class="agile-menu-item menu-item">
           <i-button @click="preonlineAgileHandler" type="primary" size="small" style="margin-right: 10px;">preonline</i-button>
-          <i-button @click="onlineAgileHandler" type="primary" size="small">online</i-button>
+          <i-button @click="onlineAgileHandler" type="primary" size="small" style="margin-right: 10px;">online</i-button>
+          <i-button
+                  v-if="hasSwan"
+                  @click="swanAgileHandler"
+                  type="primary" size="small"
+          >swan</i-button>
         </div>
       </div>
     </div>
