@@ -1,0 +1,21 @@
+{
+  "name": "lemon-fe-helper-extension",
+  "version": "1.0.0",
+  "description": "this is lemon-fe-helper-extension for helpe fe colleague",
+  "main": "deploy.js",
+  "dependencies": {
+    "webrtc-ips": "^0.1.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "dev": "node deploy.js development",
+    "build": "node deploy.js production",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "fe-helper",
+    "extension"
+  ],
+  "author": "yanwosky4",
+  "license": "ISC"
+}

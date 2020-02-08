@@ -7,6 +7,9 @@ const Path = require('path');
 const uglify = require('uglify-js');
 const babel = require('babel-core');
 
+const arguments = process.argv.splice(2);
+const env = arguments[0];
+
 // 排除文件夹或文件
 // excludes.copy 不复制文件夹或文件列表
 // excludes.mini 不压缩文件列表。需要目录文件相对根目录的全路径，如：./script/xx/xx.js
@@ -60,8 +63,12 @@ let excludes = {
 
         try {
             let r = babel.transformFileSync(sourceList, {presets: ['es2015']});
-            // let result = uglify.minify(r.code);
-            let result = r;
+            let result = '';
+            if (env === 'development') {
+                result = r;
+            } else {
+                result = uglify.minify(r.code);
+            }
             Fs.writeFileSync(target, result['code'], 'utf8');
         } catch (e) {
             console.error(e);
