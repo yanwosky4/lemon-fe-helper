@@ -9,8 +9,7 @@ if (WebRTC_IPs) {
 	});
 };
 
-window.addEventListener('message', function(e)
-{
+window.addEventListener('message', function(e) {
     if (e.data && e.data.id === 'REQUEST_CURRENT_PAGE_EXTENSION_CONFIG') {
         window.postMessage({id: 'RESPONSE_CURRENT_PAGE_EXTENSION_CONFIG', config: this['lemon-fe-helper-prefix-key-config']}, '*');
     }

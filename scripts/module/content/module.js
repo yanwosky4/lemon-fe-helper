@@ -2,24 +2,39 @@
  * @author yanwosky4@gmail.com
  */
 
+const dictumList = [
+    'Beautiful is better than ugly.(优美胜于丑陋)',
+    'Explicit is better than implicit.(明了胜于晦涩)',
+    'Simple is better than complex.(简洁胜于复杂)',
+    'Complex is better than complicated.(复杂胜于凌乱-如果复杂不可避免)',
+    'Flat is better than nested.(扁平胜于嵌套)',
+    'Sparse is better than dense.(间隔胜于紧凑)',
+    'Readability counts.(可读性很重要)',
+    `Special cases aren't special enough to break the rules.Although practicality beats purity(即便假借 特例 的实用性之名，也不可违背这些规则-这些规则至高无上)`,
+    'Errors should never pass silently(不要包容所有错误)',
+    'Now is better than never.Although never is often better than right now.(做也许好过不做，但不假思索就动手还不如不做)',
+    `If the implementation is hard to explain, it's a bad idea.(做也许好过不做，但不假思索就动手还不如不做)`,
+    `Namespaces are one honking great idea.(命名空间是一种绝妙的理念)`,
+    `There is only one heroism in the world: to see the world as it is and to love it.(世界上只有一种真正的英雄主义，那就是在认清生活的本质后，依然热爱生活)`,
+    `There is only one heroism in the world: to see the world as it is and goodness.(世界上只有一种真正的英雄主义，那就是在认清生活的本质后，依然善良如初-me)`
+];
+
 App.module.extend('content', function() {
     let self = this;
     //
     this.init = function() {
-        // chrome.extension.onMessage.addListener(function(request, _, response) {
-        //     let method = request.method;
-        //     if (self.hasOwnProperty(method)) {
-        //         self[method]();
-        //     } else {
-        //         self.log('method '+ method +' not exist.');
-        //     }
-        //     response('');
-        // });
-        console.log('>>> content init');
+        const dictItem = this.getRandomDictItem();
+        console.log('\n', dictItem.toString());
         this.webRTCData = null;
         this.initEvent();
         this.initInjectJsScript();
     };
+
+    this.getRandomDictItem = function() {
+        const dictLength = dictumList.length;
+        let dictIndex = Math.floor(Math.random() * dictumList.length) % dictLength;
+        return dictumList[dictIndex];
+    }
 
     this.show = function() {
         if ($('.ces-view-example').length === 0) {
@@ -75,9 +90,9 @@ App.module.extend('content', function() {
         chrome.runtime.onMessage.addListener(function(request, sender, sendResponse)
         {
             if(request.id == 'REQUEST_CURRENT_PAGE_EXTENSION_CONFIG') {
-                sendResponse('成功接受消息');
                 window.postMessage({id: request.id}, '*');
             }
+            sendResponse('成功接受消息');
         });
     };
 

@@ -7,8 +7,8 @@ const Path = require('path');
 const uglify = require('uglify-js');
 const babel = require('babel-core');
 
-const arguments = process.argv.splice(2);
-const env = arguments[0];
+const argus = process.argv.splice(2);
+const env = argus[0];
 
 // 排除文件夹或文件
 // excludes.copy 不复制文件夹或文件列表

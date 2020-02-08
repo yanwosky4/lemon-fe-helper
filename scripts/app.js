@@ -266,7 +266,7 @@ let App = {
     //},
 
     log: function(msg) {
-        console.log('[CES]', msg);
+        // console.log('[CES]', msg);
     },
 
     run: function() {
