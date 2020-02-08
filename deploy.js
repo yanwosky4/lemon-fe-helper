@@ -60,7 +60,8 @@ let excludes = {
 
         try {
             let r = babel.transformFileSync(sourceList, {presets: ['es2015']});
-            let result = uglify.minify(r.code);
+            // let result = uglify.minify(r.code);
+            let result = r;
             Fs.writeFileSync(target, result['code'], 'utf8');
         } catch (e) {
             console.error(e);

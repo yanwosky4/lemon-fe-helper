@@ -1,6 +1,5 @@
 /**
- * CES Content Event
- * Created by Yuiitsu on 2018/10/24.
+ * @author yanwosky4@gmail.com
  */
 App.event.extend('content', function() {
 

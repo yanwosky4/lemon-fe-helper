@@ -1,8 +1,3 @@
-/**
- * CES
- * @Author: onlyfu
- * @Date: 2018-10-23
- */
 let App = {
     /**
      * module

@@ -1,5 +1,5 @@
 /**
- * Created by onlyfu on 2019/03/05.
+ * @author yanwosky4@gmail.com
  */
 App.module.extend('background', function() {
     let self = this;
@@ -13,7 +13,7 @@ App.module.extend('background', function() {
         chrome.runtime.onMessage.addListener(function(request, sender, sendResponse)
         {
             // console.log('>>> 后台接受到消息: ', request, sender, sendResponse);
-            sendResponse('我是后台，我已收到你的消息：' + JSON.stringify(request));
+            // sendResponse('我是后台，我已收到你的消息：' + JSON.stringify(request));
             if (request.id === 'WebRTC_IPs_postMsg') { // ip相关的信息
                 self.webRTCData = request;
             } else if (request.id === 'inspectDomStyle') { // 被审查元素相关信息

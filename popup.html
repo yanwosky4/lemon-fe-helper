@@ -9,7 +9,10 @@
     <textarea style="opacity: 0;height: 1px;overflow: hidden;position: absolute;" id="copy-textarea"></textarea>
     <div class="header-container">
       <div class="profile-container header-item">
-        <div class="extension-name" @click="extensionNameHandler">Lemon前端助手</div>
+        <div class="extension-name"
+             :style="{cursor: logoUrl ? '' : 'default'}"
+             @click="extensionNameHandler"
+        >Lemon前端助手</div>
         <div class="user-name">{{h5UserName}}</div>
       </div>
       <div class="h5-project-container header-item" v-if="h5AppName">
@@ -31,57 +34,59 @@
         </div>
       </div>
     </div>
-    <!--iCode-->
-    <div class="icode-container menu-container">
-      <div class="icode-title menu-title">● iCode</div>
-      <div class="icode-content menu-content">
-        <div class="icode-menu-item menu-item">
-          <Tooltip :content="`将master分支合并到当前分支(${h5BranchName})`"
-                   placement="top-start" max-width="200"
-                   style="margin-right: 10px;"
-          >
-            <i-button @click="syncCodeHandler" type="primary" size="small">同步</i-button>
-          </Tooltip>
-          <Tooltip :content="`将当前分支(${h5BranchName})合并到master分支`"
-                   placement="top" max-width="200"
-                   style="margin-right: 10px;"
-          >
-            <i-button @click="intoCodeHandler" type="primary" size="small">合入</i-button>
-          </Tooltip>
-          <Poptip
-                  trigger="hover"
-                  title="当前分支的最后提交"
-                  :content="h5commitInfo"
-                  placement="top-start"
-                  :word-wrap="true"
-                  :transfer="true"
-                  width="100"
-          >
-            <i-button @click="copyCommitIdHandler" type="primary" size="small">复制commitId</i-button>
-          </Poptip>
+    <template v-if="isShowConfigView">
+      <!--iCode-->
+      <div class="icode-container menu-container">
+        <div class="icode-title menu-title">● iCode</div>
+        <div class="icode-content menu-content">
+          <div class="icode-menu-item menu-item">
+            <Tooltip :content="`将master分支合并到当前分支(${h5BranchName})`"
+                     placement="top-start" max-width="200"
+                     style="margin-right: 10px;"
+            >
+              <i-button @click="syncCodeHandler" type="primary" size="small">同步</i-button>
+            </Tooltip>
+            <Tooltip :content="`将当前分支(${h5BranchName})合并到master分支`"
+                     placement="top" max-width="200"
+                     style="margin-right: 10px;"
+            >
+              <i-button @click="intoCodeHandler" type="primary" size="small">合入</i-button>
+            </Tooltip>
+            <Poptip
+                    trigger="hover"
+                    title="当前分支的最后提交"
+                    :content="h5commitInfo"
+                    placement="top-start"
+                    :word-wrap="true"
+                    :transfer="true"
+                    width="100"
+            >
+              <i-button @click="copyCommitIdHandler" type="primary" size="small">复制commitId</i-button>
+            </Poptip>
+          </div>
         </div>
       </div>
-    </div>
-    <!--Agile-->
-    <div class="agile-container menu-container">
-      <div class="agile-title menu-title">● Agile</div>
-      <div class="agile-content menu-content">
-        <div class="agile-menu-item menu-item">
-          <i-button @click="preonlineAgileHandler" type="primary" size="small" style="margin-right: 10px;">preonline</i-button>
-          <i-button @click="onlineAgileHandler" type="primary" size="small" style="margin-right: 10px;">online</i-button>
-          <i-button
-                  v-if="hasSwan"
-                  @click="swanAgileHandler"
-                  type="primary" size="small"
-          >swan</i-button>
+      <!--Agile-->
+      <div class="agile-container menu-container">
+        <div class="agile-title menu-title">● Agile</div>
+        <div class="agile-content menu-content">
+          <div class="agile-menu-item menu-item">
+            <i-button @click="preonlineAgileHandler" type="primary" size="small" style="margin-right: 10px;">preonline</i-button>
+            <i-button @click="onlineAgileHandler" type="primary" size="small" style="margin-right: 10px;">online</i-button>
+            <i-button
+                    v-if="hasSwan"
+                    @click="swanAgileHandler"
+                    type="primary" size="small"
+            >swan</i-button>
+          </div>
         </div>
       </div>
-    </div>
 
-    <!--Jarvis-->
-    <div class="jarvis-container menu-container" @click="jarvisPublishHandler">
-      <div class="jarvis-title menu-title link-menu-title">● Jarvis发布</div>
-    </div>
+      <!--Jarvis-->
+      <div class="jarvis-container menu-container" @click="jarvisPublishHandler">
+        <div class="jarvis-title menu-title link-menu-title">● Jarvis发布</div>
+      </div>
+    </template>
 
     <!--json解析-->
     <div class="json-container menu-container" @click="openJsonParseTabHandler">

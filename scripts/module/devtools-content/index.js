@@ -1,3 +1,7 @@
+/**
+ * @author yanwosky4@gmail.com
+ */
+
 const app = new Vue({
     el: '#app',
     data: {

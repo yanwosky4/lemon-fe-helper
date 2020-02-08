@@ -1,7 +1,3 @@
-/**
- * 数据监听
- * Created by Yuiitsu on 2018/05/30.
- */
 let Model = {
     default: {},
     data: {},

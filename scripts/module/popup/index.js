@@ -1,23 +1,24 @@
 /**
+ * @author yanwosky4@gmail.com
+ */
+
+/**
  * h5ProjectConfig: lemon-fe-helper-h5-project-config
+ *  logoUrl
  *  appName: 项目名称
  *  branchName: 分支名称
  *  userName: 用户名称
  *  commitId: 当前分支最后提交的commit id
  *  commitInfo: 提交信息
+ *
+ *  hasSwan
+ *  reposBaseUrl
+ *  agileBaseUrl
+ *  preonlinePipelineName
+ *  onlinePipelineName
+ *  swanPipelineName
+ *  jarvisUrl
  */
-
-const extraConfig = {
-    'lemon-smart-prg': {
-        hasSwan: true,
-        reposBaseUrl: 'http://icode.baidu.com/repos/baidu/ebiz',
-        agileBaseUrl: 'http://agile.baidu.com/#/builds/baidu/ebiz',
-        preonlinePipelineName: 'preonlinePipeline',
-        onlinePipelineName: 'onlinePipeline',
-        swanPipelineName: 'pipeline-swan',
-        jarvisUrl: 'http://jarvis.baidu-int.com/#/App/BaseInfo/10000/56/11831/5'
-    }
-}
 
 new Vue({
     el: '#app',
@@ -25,7 +26,8 @@ new Vue({
         qrcodeValue: '',
         bg: null,
         ipAddress: '加载中...',
-        h5ProjectConfig: null
+        h5ProjectConfig: null,
+        extraConfig: null
     },
     methods: {
         initData() {
@@ -43,9 +45,19 @@ new Vue({
                 this.ipAddress = ipv4;
             }).catch(e => {
                 this.ipAddress = '获取ip失败，请刷新页面重试';
-            })
+            });
         },
         initEvent() {
+            this.sendMessageToContentScript({id: 'REQUEST_CURRENT_PAGE_EXTENSION_CONFIG'}, data => {
+                console.log('>>> data', data);
+            });
+            chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+                console.log('popup 收到来自content-script的消息：');
+                console.log(request, sender, sendResponse);
+                if (request.id === 'RESPONSE_CURRENT_PAGE_EXTENSION_CONFIG') {
+                    this.extraConfig = request.config;
+                }
+            });
         },
         getCurrentUrlPromise() {
             return new Promise(function(resolve, reject) {
@@ -96,11 +108,14 @@ new Vue({
             this.$Message.success('已复制 ^_^');
         },
         extensionNameHandler() { // extension标题的点击事件
-            const newURL = "http://wiki.baidu.com/display/lemon/LemonFE";
+            const newURL = this.logoUrl;
+            if (!newURL) {
+                return;
+            }
             chrome.tabs.create({ url: newURL });
         },
         getCurrentExtraConfig() {
-            return extraConfig[this.h5AppName];
+            return this.extraConfig;
         },
         h5AppNameHandler() {
             const currentExtraConfig = this.getCurrentExtraConfig();
@@ -160,6 +175,16 @@ new Vue({
             }
             const newURL = `${currentExtraConfig.jarvisUrl}`;
             chrome.tabs.create({ url: newURL });
+        },
+        sendMessageToContentScript(message, callback)
+        {
+            chrome.tabs.query({active: true, currentWindow: true}, function(tabs)
+            {
+                chrome.tabs.sendMessage(tabs[0].id, message, function(response)
+                {
+                    if(callback) callback(response);
+                });
+            });
         }
     },
     mounted() {
@@ -172,23 +197,50 @@ new Vue({
         }
     },
     computed: {
+        isShowConfigView() {
+            return !!this.h5AppName;
+        },
+        logoUrl() {
+            const currentExtraConfig = this.getCurrentExtraConfig();
+            if (!currentExtraConfig) {
+                return '';
+            }
+            return currentExtraConfig.logoUrl;
+        },
         h5AppName() { // h5项目的名称
-            // return (h5ProjectConfig && h5ProjectConfig.appName) || '';
-            return 'lemon-smart-prg';
+            const currentExtraConfig = this.getCurrentExtraConfig();
+            if (!currentExtraConfig) {
+                return '';
+            }
+            return currentExtraConfig.appName;
         },
         h5BranchName() { // h5分支名称
-            // return (h5ProjectConfig && h5ProjectConfig.branchName) || '';
-            return 'lemon-smart-prg_2020-01-14_BRANCH'
+            const currentExtraConfig = this.getCurrentExtraConfig();
+            if (!currentExtraConfig) {
+                return '';
+            }
+            return currentExtraConfig.branchName;
         },
         h5UserName() { // h5分支名称
-            // return (h5ProjectConfig && h5ProjectConfig.userName) || '';
-            return 'sunyihong';
+            const currentExtraConfig = this.getCurrentExtraConfig();
+            if (!currentExtraConfig) {
+                return '';
+            }
+            return currentExtraConfig.userName;
         },
         h5commitId() {
-            return 'cpd-alpha-1455';
+            const currentExtraConfig = this.getCurrentExtraConfig();
+            if (!currentExtraConfig) {
+                return '';
+            }
+            return currentExtraConfig.commitId;
         },
         h5commitInfo() {
-            return 'cpd-alpha-1455 最后的提交信息'
+            const currentExtraConfig = this.getCurrentExtraConfig();
+            if (!currentExtraConfig) {
+                return '';
+            }
+            return currentExtraConfig.commitTitle;
         },
         hasSwan() {
             const currentExtraConfig = this.getCurrentExtraConfig();

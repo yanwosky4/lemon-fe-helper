@@ -1,6 +1,5 @@
 /**
  * 版本更新记录
- * Created by Yuiitsu on 2018/05/22.
  */
 const Version = {
 

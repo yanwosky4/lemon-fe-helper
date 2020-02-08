@@ -1,5 +1,5 @@
 /**
- * CES Content View
+ * @author yanwosky4@gmail.com
  */
 App.view.extend('content', function() {
 

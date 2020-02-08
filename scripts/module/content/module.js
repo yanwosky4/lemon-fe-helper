@@ -1,5 +1,5 @@
 /**
- * Created by onlyfu on 2019/03/05.
+ * @author yanwosky4@gmail.com
  */
 
 App.module.extend('content', function() {
@@ -66,8 +66,19 @@ App.module.extend('content', function() {
                 if (e.data) {
                     self.sendMessage(e.data);
                 }
+            } else if (e.data && e.data.id === 'RESPONSE_CURRENT_PAGE_EXTENSION_CONFIG') {
+                if (e.data) {
+                    self.sendMessage(e.data);
+                }
             }
         }, false);
+        chrome.runtime.onMessage.addListener(function(request, sender, sendResponse)
+        {
+            if(request.id == 'REQUEST_CURRENT_PAGE_EXTENSION_CONFIG') {
+                sendResponse('成功接受消息');
+                window.postMessage({id: request.id}, '*');
+            }
+        });
     };
 
     this.sendMessage = function (msgData) { // content-script主动发消息给后台
