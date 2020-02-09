@@ -58,7 +58,7 @@ new Vue({
                 this.sendMessageToContentScript({id: 'REQUEST_CURRENT_PAGE_EXTENSION_CONFIG'}, data => {
                     console.log('>>> data', data);
                 });
-            }, 150);
+            }, 0);
             chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                 console.log('popup 收到来自content-script的消息：');
                 console.log(request, sender, sendResponse);
