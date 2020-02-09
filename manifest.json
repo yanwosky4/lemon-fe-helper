@@ -7,7 +7,9 @@
     "homepage_url": "https://lemon.baidu.com",
     "icons":
     {
-        "16": "scripts/assets/images/logo.png"
+        "16": "scripts/assets/images/logo.png",
+        "48": "scripts/assets/images/logo.png",
+        "128": "scripts/assets/images/logo.png"
     },
     "author":"yanwosky4",
     "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self';",
@@ -38,7 +40,8 @@
         ],
         "css": [
             "style/content.css"
-        ]
+        ],
+        "run_at": "document_start"
     }],
     "devtools_page": "devtools.html",
     "browser_action": {
@@ -51,7 +54,8 @@
         "contextMenus",
         "fontSettings",
         "http://*/*",
-        "https://*/*"
+        "https://*/*",
+        "storage"
     ],
     "web_accessible_resources": ["scripts/lib/bundle.prod.js"]
 }

@@ -27,7 +27,8 @@ new Vue({
         bg: null,
         ipAddress: '加载中...',
         h5ProjectConfig: null,
-        extraConfig: null
+        extraConfig: null,
+        userNameData: ''
     },
     methods: {
         initData() {
@@ -46,16 +47,29 @@ new Vue({
             }).catch(e => {
                 this.ipAddress = '获取ip失败，请刷新页面重试';
             });
+            this.getStoragePromise({userNameData: ''}).then(({userNameData = ''}) => {
+                if (!this.userNameData) {
+                    this.userNameData = userNameData;
+                }
+            })
         },
         initEvent() {
-            this.sendMessageToContentScript({id: 'REQUEST_CURRENT_PAGE_EXTENSION_CONFIG'}, data => {
-                console.log('>>> data', data);
-            });
+            setTimeout(() => {
+                this.sendMessageToContentScript({id: 'REQUEST_CURRENT_PAGE_EXTENSION_CONFIG'}, data => {
+                    console.log('>>> data', data);
+                });
+            }, 150);
             chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                 console.log('popup 收到来自content-script的消息：');
                 console.log(request, sender, sendResponse);
                 if (request.id === 'RESPONSE_CURRENT_PAGE_EXTENSION_CONFIG') {
                     this.extraConfig = request.config;
+
+                    const userNameData = this.extraConfig && this.extraConfig.userName;
+                    if (userNameData) {
+                        this.userNameData = userNameData;
+                        this.setStoragePromise({userNameData})
+                    }
                 }
             });
         },
@@ -176,13 +190,26 @@ new Vue({
             const newURL = `${currentExtraConfig.jarvisUrl}`;
             chrome.tabs.create({ url: newURL });
         },
-        sendMessageToContentScript(message, callback)
-        {
+        sendMessageToContentScript(message, callback) {
             chrome.tabs.query({active: true, currentWindow: true}, function(tabs)
             {
                 chrome.tabs.sendMessage(tabs[0].id, message, function(response)
                 {
                     if(callback) callback(response);
+                });
+            });
+        },
+        setStoragePromise(obj) {
+            return new Promise(resolve => {
+                chrome.storage.sync.set(obj, function() {
+                    resolve('保存成功！');
+                });
+            });
+        },
+        getStoragePromise(obj) {
+            return new Promise(resolve => {
+                chrome.storage.sync.get(obj, function(items) {
+                    resolve(items);
                 });
             });
         }
@@ -221,12 +248,8 @@ new Vue({
             }
             return currentExtraConfig.branchName;
         },
-        h5UserName() { // h5分支名称
-            const currentExtraConfig = this.getCurrentExtraConfig();
-            if (!currentExtraConfig) {
-                return '';
-            }
-            return currentExtraConfig.userName;
+        h5UserName() { // h5用户名
+            return this.userNameData || '';
         },
         h5commitId() {
             const currentExtraConfig = this.getCurrentExtraConfig();
